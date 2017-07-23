@@ -1,5 +1,8 @@
 module GradDescent
 
-# package code goes here
+export Adagrad, test_sum
+
+include("optimizers.jl")
+include("helper.jl")
 
 end # module

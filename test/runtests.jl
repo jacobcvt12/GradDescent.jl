@@ -1,5 +1,4 @@
 using GradDescent
 using Base.Test
 
-# write your own tests here
-@test 1 == 1
+include("normal-mle.jl")

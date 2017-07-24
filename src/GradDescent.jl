@@ -1,8 +1,10 @@
 module GradDescent
 
-export Adagrad, test_sum
+export 
+    Adagrad,
+    update
 
-include("optimizers.jl")
-include("helper.jl")
+include("AbstractOptimizer.jl")
+include("AdaGradOptimizer.jl")
 
 end # module

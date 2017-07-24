@@ -2,18 +2,32 @@ using Distributions, ForwardDiff
 
 srand(1)
 Y = rand(Normal(4.0, 1.0), 100)
-epochs = 100
+epochs = 200
 cost(Y, μ) = loglikelihood(Normal(μ, 1.0), Y)
 
 # adagrad
-θ = rand(Normal(), 1)
+θ_adagrad = rand(Normal(), 1)
 opt = Adagrad(1, η=1.0)
 
 for i in 1:epochs
-    g = ForwardDiff.gradient(μ -> cost(Y, μ[1]), θ)
+    g = ForwardDiff.gradient(μ -> cost(Y, μ[1]), θ_adagrad)
 
     δ = update(opt, g)
-    θ += δ
+    θ_adagrad += δ
 end
 
-@test mean(Y) ≈ θ[1] atol=1e-5
+# adam
+θ_adam = rand(Normal(), 1)
+opt = Adam(1.0)
+
+for i in 1:epochs
+    g = ForwardDiff.gradient(μ -> cost(Y, μ[1]), θ_adam)
+
+    δ = update(opt, g)
+    θ_adam += δ
+end
+
+@testset "Normal MLE" begin
+    @test mean(Y) ≈ θ_adagrad[1] atol=1e-3
+    @test mean(Y) ≈ θ_adam[1] atol=1e-3
+end

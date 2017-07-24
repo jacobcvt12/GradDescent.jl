@@ -16,6 +16,17 @@ for i in 1:epochs
     θ_adagrad += δ
 end
 
+# adadelta
+θ_adadelta = rand(Normal(), 1)
+opt = Adadelta(1)
+
+for i in 1:(epochs*20) # no "questioningly" increase learning rate for adadelta
+    g = ForwardDiff.gradient(μ -> cost(Y, μ[1]), θ_adadelta)
+
+    δ = update(opt, g)
+    θ_adadelta += δ
+end
+
 # adam
 θ_adam = rand(Normal(), 1)
 opt = Adam(1.0)
@@ -29,5 +40,6 @@ end
 
 @testset "Normal MLE" begin
     @test mean(Y) ≈ θ_adagrad[1] atol=1e-3
+    @test mean(Y) ≈ θ_adadelta[1] atol=1e-0
     @test mean(Y) ≈ θ_adam[1] atol=1e-3
 end

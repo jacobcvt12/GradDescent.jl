@@ -11,10 +11,10 @@ function Adagrad(shape; η::Float64=0.01, ϵ::Float64=1e-8)
     Adagrad(zeros(shape), η, ϵ)
 end
 
-function update(optimizer::Adagrad, g_t::Any)
-    optimizer.G_t += (g_t .^ 2)
+function update(opt::Adagrad, g_t::Any)
+    opt.G_t += (g_t .^ 2)
 
-    δ = optimizer.η ./ (sqrt.(optimizer.G_t + optimizer.ϵ)) .* g_t
+    δ = opt.η ./ (sqrt.(opt.G_t + opt.ϵ)) .* g_t
 
     return δ
 end

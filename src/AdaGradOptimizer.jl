@@ -4,6 +4,7 @@ mutable struct Adagrad <: Optimizer
     ϵ::Float64
 end
 
+"Construct Adagrad optimizer"
 function Adagrad(shape; η::Float64=0.01, ϵ::Float64=1e-8)
     η <= 0.0 && error("η must be greater than 0")
     ϵ <= 0.0 && error("ϵ must be greater than 0")

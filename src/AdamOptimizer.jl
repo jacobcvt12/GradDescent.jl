@@ -8,6 +8,7 @@ mutable struct Adam <: Optimizer
     v_t::Matrix{Float64}
 end
 
+"Construct Adam optimizer"
 function Adam(α=0.001, β₁=0.9, β₂=0.999, ϵ=10e-8)
     m_t = zeros(1)'
     v_t = zeros(1)'

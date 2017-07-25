@@ -6,6 +6,7 @@ mutable struct Adadelta <: Optimizer
     ϵ::Float64
 end
 
+"Construct Adadelta optimizer"
 function Adadelta(shape; ρ::Float64=0.9, ϵ::Float64=1e-8)
     ρ <= 0.0 && error("ρ must be greater than 0")
     ϵ <= 0.0 && error("ϵ must be greater than 0")

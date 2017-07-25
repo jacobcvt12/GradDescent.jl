@@ -27,8 +27,6 @@ for i in 1:(epochs*20) # no "questioningly" increase learning rate for adadelta
     θ_adadelta += δ
 end
 
-θ_adadelta
-
 # adam
 θ_adam = rand(Normal(), 1)
 opt = Adam(α=1.0)

@@ -4,6 +4,17 @@ dcost(x) = 2 * x
 srand(1)
 epochs = 1000
 
+# momentum
+x_momentum = rand(1)
+opt = Momentum()
+
+for i in 1:epochs
+    g = dcost(x_momentum)
+
+    δ = update(opt, g)
+    x_momentum -= δ
+end
+
 # adagrad
 x_adagrad = rand(1)
 opt = Adagrad()
@@ -38,6 +49,7 @@ for i in 1:epochs
 end
 
 @testset "Quadatric" begin
+    @test 0.0 ≈ x_momentum[1] atol=5e-2
     @test 0.0 ≈ x_adagrad[1] atol=5e-2
     @test 0.0 ≈ x_adadelta[1] atol=5e-2
     @test 0.0 ≈ x_adam[1] atol=5e-2

@@ -37,6 +37,17 @@ for i in 1:epochs
     x_adadelta -= δ
 end
 
+# rmsprop
+x_rmsprop = rand(1)
+opt = RMSprop()
+
+for i in 1:epochs
+    g = dcost(x_rmsprop)
+
+    δ = update(opt, g)
+    x_rmsprop -= δ
+end
+
 # adam
 x_adam = rand(1)
 opt = Adam()
@@ -52,5 +63,6 @@ end
     @test 0.0 ≈ x_momentum[1] atol=5e-2
     @test 0.0 ≈ x_adagrad[1] atol=5e-2
     @test 0.0 ≈ x_adadelta[1] atol=5e-2
+    @test 0.0 ≈ x_rmsprop[1] atol=5e-2
     @test 0.0 ≈ x_adam[1] atol=5e-2
 end

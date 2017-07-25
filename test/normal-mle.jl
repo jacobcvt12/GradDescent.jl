@@ -16,6 +16,17 @@ for i in 1:epochs
     θ_adagrad += δ
 end
 
+# rmsprop
+θ_rmsprop = rand(Normal(), 1)
+opt = RMSprop(η=0.1)
+
+for i in 1:(epochs*2)
+    g = ForwardDiff.gradient(μ -> cost(Y, μ[1]), θ_rmsprop)
+
+    δ = update(opt, g)
+    θ_rmsprop += δ
+end
+
 # adam
 θ_adam = rand(Normal(), 1)
 opt = Adam(α=1.0)
@@ -29,5 +40,6 @@ end
 
 @testset "Normal MLE" begin
     @test mean(Y) ≈ θ_adagrad[1] atol=1e-3
+    @test mean(Y) ≈ θ_rmsprop[1] atol=1e-1
     @test mean(Y) ≈ θ_adam[1] atol=1e-3
 end

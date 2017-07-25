@@ -33,6 +33,17 @@ for i in 1:epochs
     θ_adagrad -= δ
 end
 
+# rmsprop
+θ_rmsprop = rand(Normal(), d)
+opt = RMSprop(η=0.1)
+
+for i in 1:epochs
+    g = ForwardDiff.gradient(θ -> obj(Y, X, θ), θ_rmsprop)
+
+    δ = update(opt, g)
+    θ_rmsprop -= δ
+end
+
 # adam
 θ_adam = rand(Normal(), d)
 opt = Adam(α=1.0)

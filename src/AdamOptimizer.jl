@@ -1,22 +1,22 @@
 mutable struct Adam <: Optimizer
+    t::Int64
+    ϵ::Float64
     α::Float64
     β₁::Float64
     β₂::Float64
-    ϵ::Float64
-    t::Int64
-    m_t::Matrix{Float64}
-    v_t::Matrix{Float64}
+    m_t::Array{Float64}
+    v_t::Array{Float64}
 end
 
 "Construct Adam optimizer"
-function Adam(α=0.001, β₁=0.9, β₂=0.999, ϵ=10e-8)
+function Adam(;α=0.001, β₁=0.9, β₂=0.999, ϵ=10e-8)
     m_t = zeros(1)'
     v_t = zeros(1)'
 
-    Adam(α, β₁, β₂, ϵ, 0, m_t, v_t)
+    Adam(0, ϵ, α, β₁, β₂, m_t, v_t)
 end
 
-function update(opt::Adam, g_t::Any)
+function update(opt::Adam, g_t::Array{Float64})
     # resize biased moment estimates if first iteration
     if opt.t == 0
         opt.m_t = zeros(length(g_t))'

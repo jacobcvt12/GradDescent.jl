@@ -1,20 +1,28 @@
 mutable struct Adadelta <: Optimizer
-    E_g²_t::Any
-    E_Δx²_t_1::Any
-    Δx²_t_1::Any
-    ρ::Float64
+    t::Int64
     ϵ::Float64
+    ρ::Float64
+    E_g²_t::Array{Float64}
+    E_Δx²_t_1::Array{Float64}
+    Δx²_t_1::Array{Float64}
 end
 
 "Construct Adadelta optimizer"
-function Adadelta(shape; ρ::Float64=0.9, ϵ::Float64=1e-8)
+function Adadelta(; ρ::Float64=0.9, ϵ::Float64=1e-8)
     ρ <= 0.0 && error("ρ must be greater than 0")
     ϵ <= 0.0 && error("ϵ must be greater than 0")
 
-    Adadelta(zeros(shape), zeros(shape), zeros(shape), ρ, ϵ)
+    Adadelta(0, ϵ, ρ, zeros(1), zeros(1), zeros(1))
 end
 
-function update(opt::Adadelta, g_t::Any)
+function update(opt::Adadelta, g_t::Array{Float64})
+    # resize accumulated and squared updates
+    if opt.t == 0
+        opt.E_g²_t = zeros(g_t)
+        opt.E_Δx²_t_1  = zeros(g_t)
+        opt.Δx²_t_1 = zeros(g_t)
+    end
+
     # accumulate gradient
     opt.E_g²_t = opt.ρ * opt.E_g²_t + (1 - opt.ρ) * (g_t .^ 2)
 

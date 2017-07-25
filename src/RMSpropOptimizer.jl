@@ -6,7 +6,7 @@ mutable struct RMSprop <: Optimizer
     E_g²_t::Array{Float64}
 end
 
-"Construct Adadelta optimizer"
+"Construct RMSprop optimizer"
 function RMSprop(; η::Float64=0.001, γ::Float64=0.01, ϵ::Float64=1e-8)
     η <= 0.0 && error("η must be greater than 0")
     γ <= 0.0 && error("γ must be greater than 0")

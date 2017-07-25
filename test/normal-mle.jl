@@ -7,7 +7,7 @@ cost(Y, μ) = loglikelihood(Normal(μ, 1.0), Y)
 
 # adagrad
 θ_adagrad = rand(Normal(), 1)
-opt = Adagrad(1, η=1.0)
+opt = Adagrad(η=1.0)
 
 for i in 1:epochs
     g = ForwardDiff.gradient(μ -> cost(Y, μ[1]), θ_adagrad)
@@ -18,7 +18,7 @@ end
 
 # adadelta
 θ_adadelta = rand(Normal(), 1)
-opt = Adadelta(1)
+opt = Adadelta()
 
 for i in 1:(epochs*20) # no "questioningly" increase learning rate for adadelta
     g = ForwardDiff.gradient(μ -> cost(Y, μ[1]), θ_adadelta)
@@ -27,9 +27,11 @@ for i in 1:(epochs*20) # no "questioningly" increase learning rate for adadelta
     θ_adadelta += δ
 end
 
+θ_adadelta
+
 # adam
 θ_adam = rand(Normal(), 1)
-opt = Adam(1.0)
+opt = Adam(α=1.0)
 
 for i in 1:epochs
     g = ForwardDiff.gradient(μ -> cost(Y, μ[1]), θ_adam)

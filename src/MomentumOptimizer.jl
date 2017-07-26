@@ -1,4 +1,5 @@
 mutable struct Momentum <: Optimizer
+    opt_type::String
     t::Int64
     η::Float64
     γ::Float64
@@ -10,7 +11,7 @@ function Momentum(; η::Float64=0.01, γ::Float64=0.9)
     η <= 0.0 && error("η must be greater than 0")
     γ <= 0.0 && error("γ must be greater than 0")
 
-    Momentum(0, η, γ, zeros(1))
+    Momentum("Momentum", 0, η, γ, zeros(1))
 end
 
 function update(opt::Momentum, g_t::Array{Float64})

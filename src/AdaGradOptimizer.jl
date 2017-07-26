@@ -1,4 +1,5 @@
 mutable struct Adagrad <: Optimizer
+    opt_type::String
     t::Int64
     ϵ::Float64
     η::Float64
@@ -10,7 +11,7 @@ function Adagrad(; η::Float64=0.01, ϵ::Float64=1e-8)
     η <= 0.0 && error("η must be greater than 0")
     ϵ <= 0.0 && error("ϵ must be greater than 0")
 
-    Adagrad(0, ϵ, η, zeros(1))
+    Adagrad("Adagrad", 0, ϵ, η, zeros(1))
 end
 
 function update(opt::Adagrad, g_t::Array{Float64})

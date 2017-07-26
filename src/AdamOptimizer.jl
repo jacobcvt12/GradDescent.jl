@@ -1,4 +1,5 @@
 mutable struct Adam <: Optimizer
+    opt_type::String
     t::Int64
     ϵ::Float64
     α::Float64
@@ -13,7 +14,7 @@ function Adam(;α=0.001, β₁=0.9, β₂=0.999, ϵ=10e-8)
     m_t = zeros(1)'
     v_t = zeros(1)'
 
-    Adam(0, ϵ, α, β₁, β₂, m_t, v_t)
+    Adam("Adam", 0, ϵ, α, β₁, β₂, m_t, v_t)
 end
 
 function update(opt::Adam, g_t::Array{Float64})

@@ -7,7 +7,9 @@ export
     RMSprop,
     Adam,
     update,
-    t
+    t,
+    optimizer,
+    print
 
 include("AbstractOptimizer.jl")
 include("MomentumOptimizer.jl")

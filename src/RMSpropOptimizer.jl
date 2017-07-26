@@ -1,4 +1,5 @@
 mutable struct RMSprop <: Optimizer
+    opt_type::String
     t::Int64
     ϵ::Float64
     η::Float64
@@ -12,7 +13,7 @@ function RMSprop(; η::Float64=0.001, γ::Float64=0.01, ϵ::Float64=1e-8)
     γ <= 0.0 && error("γ must be greater than 0")
     ϵ <= 0.0 && error("ϵ must be greater than 0")
 
-    RMSprop(0, ϵ, η, γ, zeros(1))
+    RMSprop("RMSprop", 0, ϵ, η, γ, zeros(1))
 end
 
 function update(opt::RMSprop, g_t::Array{Float64})

@@ -14,6 +14,8 @@ function Adagrad(; η::Float64=0.01, ϵ::Float64=1e-8)
     Adagrad("Adagrad", 0, ϵ, η, zeros(1))
 end
 
+params(opt::Adagrad) = "ϵ=$(opt.ϵ), η=$(opt.η)"
+
 function update(opt::Adagrad, g_t::Array{Float64})
     # resize squares of gradients
     if opt.t == 0

@@ -16,6 +16,8 @@ function RMSprop(; η::Float64=0.001, γ::Float64=0.01, ϵ::Float64=1e-8)
     RMSprop("RMSprop", 0, ϵ, η, γ, zeros(1))
 end
 
+params(opt::RMSprop) = "ϵ=$(opt.ϵ), η=$(opt.η), γ=$(opt.γ)"
+
 function update(opt::RMSprop, g_t::Array{Float64})
     # resize accumulated and squared updates
     if opt.t == 0

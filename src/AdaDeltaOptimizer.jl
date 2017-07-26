@@ -16,6 +16,8 @@ function Adadelta(; ρ::Float64=0.9, ϵ::Float64=1e-8)
     Adadelta("Adadelta", 0, ϵ, ρ, zeros(1), zeros(1), zeros(1))
 end
 
+params(opt::Adadelta) = "ϵ=$(opt.ϵ), ρ=$(opt.ρ)"
+
 function update(opt::Adadelta, g_t::Array{Float64})
     # resize accumulated and squared updates
     if opt.t == 0

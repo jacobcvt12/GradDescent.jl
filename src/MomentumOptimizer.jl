@@ -14,6 +14,8 @@ function Momentum(; η::Float64=0.01, γ::Float64=0.9)
     Momentum("Momentum", 0, η, γ, zeros(1))
 end
 
+params(opt::Momentum) = "ϵ=$(opt.ϵ), η=$(opt.η), γ=$(opt.γ)"
+
 function update(opt::Momentum, g_t::Array{Float64})
     # resize squares of gradients
     if opt.t == 0

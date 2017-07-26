@@ -17,6 +17,8 @@ function Adam(;α=0.001, β₁=0.9, β₂=0.999, ϵ=10e-8)
     Adam("Adam", 0, ϵ, α, β₁, β₂, m_t, v_t)
 end
 
+params(opt::Adam) = "ϵ=$(opt.ϵ), α=$(opt.α), β₁=$(opt.β₁), β₂=$(opt.β₂)"
+
 function update(opt::Adam, g_t::Array{Float64})
     # resize biased moment estimates if first iteration
     if opt.t == 0

@@ -8,10 +8,11 @@ update(opt::Optimizer, g_t::Float64) = update(opt::Optimizer, [g_t])
 "Number of epochs run"
 t(opt::Optimizer) = opt.t
 
-"Type of gradient descent optimizer"
 optimizer(opt::Optimizer) = opt.opt_type
 
+params(opt::Optimizer) = error("not implemented")
+
 "Print summary"
-function print(opt::Optimizer) 
-    print("Optimizer: $(optimizer(opt))")
+function Base.show(io::IO, opt::Optimizer) 
+    print("$(optimizer(opt))(t=$(t(opt::Optimizer)), $(params(opt)))")
 end

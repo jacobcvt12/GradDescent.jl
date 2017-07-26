@@ -6,7 +6,8 @@ export
     Adadelta,
     RMSprop,
     Adam,
-    update
+    update,
+    t
 
 include("AbstractOptimizer.jl")
 include("MomentumOptimizer.jl")

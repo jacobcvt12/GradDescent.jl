@@ -13,6 +13,8 @@ The purpose of this package is to allow the user to focus on the calculation of 
 
 # Examples
 
+## Quadratic Function
+
 Here I demonstrate a very simple example - minimizing ``x²``. In this example, I use "Adagrad", a common gradient descent optimizer.
 
 ```julia
@@ -42,6 +44,8 @@ for i in 1:epochs
     x -= δ
 end
 ```
+
+## Linear Regression
 
 Next I demonstrate a more common example - determining the coefficients of a linear model. Here I use "Adam" an extension of "Adagrad". In this example, we minimize the mean squared error of the predicted outcome and the actual outcome. The parameter space is the coefficients of the regression model.
 

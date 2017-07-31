@@ -25,11 +25,13 @@ dJ(x) = 2 * x
 # number of epochs
 epochs = 1000
 
-# instantiation of Adagrad optimizer with default hyperparameters
-opt = Adagrad()
+# instantiation of Adagrad optimizer with learning rate of 1.0
+# note that this learning rate is likely to high for a
+# high dimensional case
+opt = Adagrad(η=1.0)
 
 # initial value for x (usually initialized with a random value)
-x = 4.0
+x = 20.0
 
 for i in 1:epochs
     # calculate the gradient wrt to the current x
@@ -39,10 +41,38 @@ for i in 1:epochs
     δ = update(opt, g)
     x -= δ
 end
-
-# inspect minimized form, should be close to 0.0
-println(x)
 ```
+
+Next I demonstrate a more common example - determining the coefficients of a linear model. Here I use "Adam" an extension of "Adagrad". In this example, we minimize the mean squared error of the predicted outcome and the actual outcome. The parameter space is the coefficients of the regression model.
+
+```julia
+using GradDescent, Distributions, ReverseDiff
+
+srand(1) # set seed
+n = 1000 # number of observations
+d = 10   # number of covariates
+X = rand(Normal(), n, d) # simulated covariates
+b = rand(Normal(), d)    # generated coefficients
+ϵ = rand(Normal(0.0, 0.1), n) # noise
+Y = X * b + ϵ # observed outcome
+obj(Y, X, b) = mean((Y - X * b) .^ 2) # objective to minimize
+
+epochs = 100 # number of epochs
+
+θ = rand(Normal(), d) # initialize model parameters
+opt = Adam(α=1.0)  # initalize optimizer with learning rate 1.0
+
+for i in 1:epochs
+    # here we use automatic differentiation to calculate 
+    # the gradient at a value
+    # an analytically derived gradient is not required
+    g = ReverseDiff.gradient(θ -> obj(Y, X, θ), θ)
+
+    δ = update(opt, g)
+    θ -= δ
+end
+```
+
 """
 module GradDescent
 

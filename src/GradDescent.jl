@@ -81,6 +81,8 @@ end
 
 Finally, I end with an example of black box variational inference (which is what initially motivated this package). Variational inference is a framework for approximating Bayesian posterior distributions using optimization. Most recent algorithms involve monte carlo estimation of gradients in conjuction with gradient ascent. Using `GradDescent`, we can focus on the gradient calculation without worrying too much about tracking learning rate parameters.
 
+In this example we perform a full bayesian analysis on a simple model - normally distribution data with known variance. We place a "noninformative" Normal prior on the mean.
+
 ```julia
 using Distributions, ForwardDiff, GradDescent, StatsFuns
 

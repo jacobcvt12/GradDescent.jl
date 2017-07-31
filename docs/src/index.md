@@ -1,5 +1,11 @@
-# GradDescent.jl Documentation
+# GradDescent
 
 ```@docs
-update(opt, g_t::Array{Float64})
+GradDescent
+```
+
+## Index
+
+```@index
+Modules = [GradDescent]
 ```

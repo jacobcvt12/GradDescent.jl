@@ -77,6 +77,69 @@ for i in 1:epochs
 end
 ```
 
+## Variational Inference
+
+Finally, I end with an example of black box variational inference (which is what initially motivated this package). Variational inference is a framework for approximating Bayesian posterior distributions using optimization. Most recent algorithms involve monte carlo estimation of gradients in conjuction with gradient ascent. Using `GradDescent`, we can focus on the gradient calculation without worrying too much about tracking learning rate parameters.
+
+```julia
+using Distributions, ForwardDiff, GradDescent, StatsFuns
+
+srand(1) # set seed
+n = 1000 # number of observations
+μ_true = 3.0  # true mean
+σ_true = 1.0 # true standard deviation
+x = rand(Normal(μ_true, σ_true), n) # simulate data
+
+# prior on mean
+prior = Normal(0.0, 100.0)
+
+# initialize variational parameters
+λ = rand(Normal(), 1, 2)
+λ[2] = softplus(λ[2])
+
+# initialize optimizer
+opt = Adam(α=1.0)
+
+S = 10 # number of monte carlo simulations for gradient estimation
+epochs = 50 # number of epochs
+
+for i in 1:epochs
+    # draw S samples from q
+    z = rand(Normal(λ[1], softplus(λ[2])), S)
+
+    # joint density calculations
+    log_prior = logpdf(prior, z)
+    log_lik = map(zi -> loglikelihood(Normal(zi, σ_true), x), z)
+    joint = log_prior + log_lik
+
+    # log variational densities
+    entropy = logpdf(Normal(λ[1], softplus(λ[2])), z)
+
+    # score function calculations
+    qg = ForwardDiff.jacobian(x -> logpdf(Normal(x[1], x[2]), 
+                                          z), 
+                              [λ[1], softplus(λ[2])])
+
+    # construct monte carlo samples st the expected value is the gradient
+    # of the ELBO
+    f = qg .* (joint - entropy)
+    h = qg
+    a = sum(diag(cov(f, h))) / sum(diag(cov(h)))
+    g = mean(f - a * h, 1) # compute gradient
+
+    # perform gradient ascent step
+    δ = update(opt, g)
+    λ += δ
+
+    # truncate variational standard deviation
+    # don't allow it to be too close to 0.0
+    λ[2] = λ[2] < invsoftplus(1e-5) ? invsoftplus(1e-5) : λ[2]
+end
+
+# after gradient ascent, apply softplus function
+λ[2] = softplus(λ[2])
+```
+
 """
 module GradDescent
 

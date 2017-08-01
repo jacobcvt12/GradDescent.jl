@@ -8,5 +8,21 @@ function update(opt::Optimizer,
     # length of list
     n = length(g_t)
 
-    opt = OptimizerList(repeat(opt, n))
+    opt = OptimizerList([deepcopy(opt) for k in 1:n])
+
+    update(opt, g_t)
+end
+
+function update(opt::OptimizerList, 
+                g_t::Array{Array{Float64}}) 
+    # length of list
+    n = length(g_t)
+
+    δ = Array{Array{Float64, 2}, 1}(n)
+
+    for i in 1:n
+        δ[i] = update(opt.opts[i], g_t[i])
+    end
+
+    return δ
 end

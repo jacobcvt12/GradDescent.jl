@@ -43,7 +43,7 @@ function update(opt::Nadam, g_t::Array{Float64})
 
     # apply update
     ρ = opt.η ./ (sqrt.(v̂_t + opt.ϵ))
-    ρ *= (opt.β₁ * m̂_t + (1. - opt.β₁) * g_t / (1 - opt.β₁^opt.t))
+    ρ .*= (opt.β₁ * m̂_t + (1. - opt.β₁) * g_t / (1 - opt.β₁^opt.t))
 
     return ρ
 end

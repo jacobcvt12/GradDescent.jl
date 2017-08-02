@@ -33,7 +33,7 @@ function update(opt::Adamax, g_t::Array{Float64})
     opt.m_t = opt.β₁ * opt.m_t + (1. - opt.β₁) * g_t
 
     # update the exponentially weighted infinity norm
-    opt.u_t = max.(opt.β₂ * opt.u_t, abs(g_t))
+    opt.u_t = max.(opt.β₂ * opt.u_t, abs.(g_t))
 
     # update parameters
     ρ = (opt.α / (1- opt.β₁^opt.t)) * opt.m_t ./ opt.u_t

@@ -161,5 +161,6 @@ include("AdaGradOptimizer.jl")
 include("AdaDeltaOptimizer.jl")
 include("RMSpropOptimizer.jl")
 include("AdamOptimizer.jl")
+include("AdamaxOptimizer.jl")
 
 end # module

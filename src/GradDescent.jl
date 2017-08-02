@@ -151,6 +151,7 @@ export
     Adadelta,
     RMSprop,
     Adam,
+    Adamax,
     update,
     t
 

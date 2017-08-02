@@ -23,7 +23,7 @@ function update(opt::Adamax, g_t::Array{Float64})
     # resize biased moment estimates if first iteration
     if opt.t == 0
         opt.m_t = zeros(g_t)
-        opt.v_t = zeros(g_t)
+        opt.u_t = zeros(g_t)
     end
 
     # update timestep

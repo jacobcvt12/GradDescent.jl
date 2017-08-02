@@ -49,9 +49,21 @@ for i in 1:epochs
     θ_adamax += δ
 end
 
+# nadam
+θ_nadam = rand(Normal(), 1)
+opt = Nadam(η=1.0)
+
+for i in 1:epochs
+    g = ForwardDiff.gradient(μ -> cost(Y, μ[1]), θ_nadam)
+
+    δ = update(opt, g)
+    θ_nadam += δ
+end
+
 @testset "Normal MLE" begin
     @test mean(Y) ≈ θ_adagrad[1] atol=1e-3
     @test mean(Y) ≈ θ_rmsprop[1] atol=1e-1
     @test mean(Y) ≈ θ_adam[1] atol=1e-3
     @test mean(Y) ≈ θ_adamax[1] atol=1e-3
+    @test mean(Y) ≈ θ_nadam[1] atol=1e-3
 end

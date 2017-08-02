@@ -5,4 +5,5 @@
     @test_nowarn opt = RMSprop()
     @test_nowarn opt = Adam()
     @test_nowarn opt = Adamax()
+    @test_nowarn opt = Nadam()
 end

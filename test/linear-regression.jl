@@ -66,9 +66,22 @@ for i in 1:epochs
     θ_adamax -= δ
 end
 
+# nadam
+θ_nadam = rand(Normal(), d)
+opt = Nadam(η=1.0)
+
+for i in 1:epochs
+    g = ForwardDiff.gradient(θ -> obj(Y, X, θ), θ_nadam)
+
+    δ = update(opt, g)
+    θ_nadam -= δ
+end
+
+
 @testset "Linear Regression" begin
     @test b ≈ θ_momentum atol=1e-1
     @test b ≈ θ_adagrad atol=1e-1
     @test b ≈ θ_adam atol=1e-1
     @test b ≈ θ_adamax atol=1e-1
+    @test b ≈ θ_nadam atol=1e-1
 end

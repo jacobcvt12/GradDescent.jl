@@ -1,10 +1,10 @@
 mutable struct OptimizerList <: Optimizer
-    opts::Array{Optimzer}
+    opts::Array{Optimizer}
 end
 
 "Promote Optimizer to OptimizerList"
 function update(opt::Optimizer, 
-                g_t::Array{Array{Float64}})
+                g_t::Array{Array{Float64, N}, 1}) where {N}
     # length of list
     n = length(g_t)
 
@@ -14,11 +14,11 @@ function update(opt::Optimizer,
 end
 
 function update(opt::OptimizerList, 
-                g_t::Array{Array{Float64}}) 
+                g_t::Array{Array{Float64, N}, 1})  where {N}
     # length of list
     n = length(g_t)
 
-    δ = Array{Array{Float64, 2}, 1}(n)
+    δ = Array{Array{Float64}}(n)
 
     for i in 1:n
         δ[i] = update(opt.opts[i], g_t[i])

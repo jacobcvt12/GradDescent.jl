@@ -6,15 +6,15 @@ mutable struct Adamax <: Optimizer
     β₁::Float64
     β₂::Float64
     m_t::Array{Float64}
-    v_t::Array{Float64}
+    u_t::Array{Float64}
 end
 
 "Construct Adamax optimizer"
-function Adamax(;α=0.001, β₁=0.9, β₂=0.999, ϵ=10e-8)
+function Adamax(;α=0.002, β₁=0.9, β₂=0.999, ϵ=10e-8)
     m_t = zeros(1)'
-    v_t = zeros(1)'
+    u_t = zeros(1)'
 
-    Adamax("Adamax", 0, ϵ, α, β₁, β₂, m_t, v_t)
+    Adamax("Adamax", 0, ϵ, α, β₁, β₂, m_t, u_t)
 end
 
 params(opt::Adamax) = "ϵ=$(opt.ϵ), α=$(opt.α), β₁=$(opt.β₁), β₂=$(opt.β₂)"
@@ -32,17 +32,11 @@ function update(opt::Adamax, g_t::Array{Float64})
     # update biased first moment estimate
     opt.m_t = opt.β₁ * opt.m_t + (1. - opt.β₁) * g_t
 
-    # update biased second raw moment estimate
-    opt.v_t = opt.β₂ * opt.v_t + (1. - opt.β₂) * ((g_t) .^2)
+    # update the exponentially weighted infinity norm
+    opt.u_t = max.(opt.β₂ * opt.u_t, abs(g_t))
 
-    # compute bias corrected first moment estimate
-    m̂_t = opt.m_t / (1. - opt.β₁^opt.t)
-
-    # compute bias corrected second raw moment estimate
-    v̂_t = opt.v_t / (1. - opt.β₂^opt.t)
-
-    # apply update
-    ρ = opt.α * m̂_t ./ (sqrt.(v̂_t + opt.ϵ))
+    # update parameters
+    ρ = (opt.α / (1- opt.β₁^opt.t)) * opt.m_t ./ opt.u_t
 
     return ρ
 end

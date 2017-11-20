@@ -4,7 +4,7 @@ mutable struct RMSprop <: Optimizer
     ϵ::Float64
     η::Float64
     γ::Float64
-    E_g²_t::Array{Float64}
+    E_g²_t::AbstractArray
 end
 
 "Construct RMSprop optimizer"
@@ -18,7 +18,7 @@ end
 
 params(opt::RMSprop) = "ϵ=$(opt.ϵ), η=$(opt.η), γ=$(opt.γ)"
 
-function update(opt::RMSprop, g_t::Array{Float64})
+function update(opt::RMSprop, g_t::AbstractArray{T, N}) where {T, N}
     # resize accumulated and squared updates
     if opt.t == 0
         opt.E_g²_t = zeros(g_t)

@@ -3,7 +3,7 @@ mutable struct Adagrad <: Optimizer
     t::Int64
     ϵ::Float64
     η::Float64
-    G_t::Array{Float64}
+    G_t::AbstractArray
 end
 
 "Construct Adagrad optimizer"
@@ -16,7 +16,7 @@ end
 
 params(opt::Adagrad) = "ϵ=$(opt.ϵ), η=$(opt.η)"
 
-function update(opt::Adagrad, g_t::Array{Float64})
+function update(opt::Adagrad, g_t::AbstractArray{T, N}) where {T, N}
     # resize squares of gradients
     if opt.t == 0
         opt.G_t = zeros(g_t)

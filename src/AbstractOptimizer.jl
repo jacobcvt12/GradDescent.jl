@@ -16,3 +16,10 @@ params(opt::Optimizer) = error("not implemented")
 function Base.show(io::IO, opt::Optimizer) 
     print("$(optimizer(opt))(t=$(t(opt::Optimizer)), $(params(opt)))")
 end
+
+"Deep copy an optimizer"
+function Base.deepcopy(opt::Optimizer)
+    f = length(fieldnames(opt))
+    copied_params = [deepcopy(getfield(opt, k)) for k = 1:f]
+    typeof(opt)(copied_params...)
+end

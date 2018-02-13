@@ -157,7 +157,7 @@ export
     t
 
 include("AbstractOptimizer.jl")
-include("OptimizerList.jl")
+#include("OptimizerList.jl")
 include("MomentumOptimizer.jl")
 include("AdaGradOptimizer.jl")
 include("AdaDeltaOptimizer.jl")

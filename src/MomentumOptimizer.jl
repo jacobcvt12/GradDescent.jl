@@ -3,7 +3,7 @@ mutable struct Momentum <: Optimizer
     t::Int64
     η::Float64
     γ::Float64
-    v_t::AbstractArray
+    v_t::Array{Float64}
 end
 
 "Construct Momentum optimizer"
@@ -16,7 +16,7 @@ end
 
 params(opt::Momentum) = "ϵ=$(opt.ϵ), η=$(opt.η), γ=$(opt.γ)"
 
-function update(opt::Momentum, g_t::AbstractArray{T, N}) where {T, N}
+function update(opt::Momentum, g_t::Array{Float64})
     # resize squares of gradients
     if opt.t == 0
         opt.v_t = zeros(g_t)

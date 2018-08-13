@@ -5,8 +5,8 @@ mutable struct Adam <: Optimizer
     α::Float64
     β₁::Float64
     β₂::Float64
-    m_t::AbstractArray
-    v_t::AbstractArray
+    m_t::Array{Float64}
+    v_t::Array{Float64}
 end
 
 "Construct Adam optimizer"
@@ -19,7 +19,7 @@ end
 
 params(opt::Adam) = "ϵ=$(opt.ϵ), α=$(opt.α), β₁=$(opt.β₁), β₂=$(opt.β₂)"
 
-function update(opt::Adam, g_t::AbstractArray{T, N}) where {T, N}
+function update(opt::Adam, g_t::Array{Float64})
     # resize biased moment estimates if first iteration
     if opt.t == 0
         opt.m_t = zeros(g_t)

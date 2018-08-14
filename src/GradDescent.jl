@@ -145,6 +145,7 @@ end
 """
 module GradDescent
 
+using LinearAlgebra
 export
     Optimizer,
     VanillaGradDescent,

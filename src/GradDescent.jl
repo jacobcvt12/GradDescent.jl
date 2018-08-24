@@ -154,6 +154,8 @@ export
     Adadelta,
     RMSprop,
     Adam,
+    Adamax,
+    Nadam,
     update,
     t
 
@@ -164,5 +166,7 @@ include("AdaGradOptimizer.jl")
 include("AdaDeltaOptimizer.jl")
 include("RMSpropOptimizer.jl")
 include("AdamOptimizer.jl")
+include("AdamaxOptimizer.jl")
+include("NadamOptimizer.jl")
 
 end # module

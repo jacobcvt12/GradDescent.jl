@@ -2,7 +2,7 @@ cost(x) = x ^ 2
 dcost(x) = 2 * x
 
 srand(1)
-epochs = 1000
+epochs = 2000
 
 # momentum
 x_momentum = rand(1)
@@ -59,10 +59,34 @@ for i in 1:epochs
     x_adam -= δ
 end
 
+# adamax
+x_adamax = rand(1)
+opt = Adamax()
+
+for i in 1:epochs
+    g = dcost(x_adamax)
+
+    δ = update(opt, g)
+    x_adamax -= δ
+end
+
+# nadam
+x_nadam = rand(1)
+opt = Nadam()
+
+for i in 1:epochs
+    g = dcost(x_nadam)
+
+    δ = update(opt, g)
+    x_nadam -= δ
+end
+
 @testset "Quadatric" begin
     @test 0.0 ≈ x_momentum[1] atol=5e-2
     @test 0.0 ≈ x_adagrad[1] atol=5e-2
     @test 0.0 ≈ x_adadelta[1] atol=5e-2
     @test 0.0 ≈ x_rmsprop[1] atol=5e-2
     @test 0.0 ≈ x_adam[1] atol=5e-2
+    @test 0.0 ≈ x_adamax[1] atol=5e-2
+    @test 0.0 ≈ x_nadam[1] atol=5e-2
 end

@@ -13,7 +13,7 @@ end
 
 params(opt::VanillaGradDescent) = "η=$(opt.η)"
 
-function update(opt::VanillaGradDescent, g_t::Array{Float64})
+function update(opt::VanillaGradDescent, g_t::AbstractArray{T,N}) where {T<:Real,N}
     # update timestep
     opt.t += 1
     return opt.η * g_t

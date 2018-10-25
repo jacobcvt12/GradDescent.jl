@@ -5,8 +5,8 @@ mutable struct Nadam <: Optimizer
     η::Float64
     β₁::Float64
     β₂::Float64
-    m_t::Array{Float64}
-    v_t::Array{Float64}
+    m_t::AbstractArray
+    v_t::AbstractArray
 end
 
 "Construct Nadam optimizer"
@@ -19,7 +19,7 @@ end
 
 params(opt::Nadam) = "ϵ=$(opt.ϵ), η=$(opt.η), β₁=$(opt.β₁), β₂=$(opt.β₂)"
 
-function update(opt::Nadam, g_t::Array{Float64})
+function update(opt::Nadam, g_t::AbstractArray{T,N}) where {T<:Real,N}
     # resize biased moment estimates if first iteration
     if opt.t == 0
         opt.m_t = zero(g_t)

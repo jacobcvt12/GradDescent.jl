@@ -3,9 +3,9 @@ mutable struct Adadelta <: Optimizer
     t::Int64
     ϵ::Float64
     ρ::Float64
-    E_g²_t::Array{Float64}
-    E_Δx²_t_1::Array{Float64}
-    Δx²_t_1::Array{Float64}
+    E_g²_t::AbstractArray
+    E_Δx²_t_1::AbstractArray
+    Δx²_t_1::AbstractArray
 end
 
 "Construct Adadelta optimizer"
@@ -18,7 +18,7 @@ end
 
 params(opt::Adadelta) = "ϵ=$(opt.ϵ), ρ=$(opt.ρ)"
 
-function update(opt::Adadelta, g_t::Array{Float64})
+function update(opt::Adadelta, g_t::AbstractArray{T, N}) where {T<:Real, N}
     # resize accumulated and squared updates
     if opt.t == 0
         opt.E_g²_t = zero(g_t)

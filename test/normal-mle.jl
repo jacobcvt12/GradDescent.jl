@@ -1,6 +1,6 @@
 using Distributions, ForwardDiff
-
-srand(1)
+using Random: seed!
+seed!(1)
 Y = rand(Normal(4.0, 1.0), 100)
 epochs = 200
 cost(Y, μ) = loglikelihood(Normal(μ, 1.0), Y)
@@ -13,7 +13,7 @@ for i in 1:epochs
     g = ForwardDiff.gradient(μ -> cost(Y, μ[1]), θ_adagrad)
 
     δ = update(opt, g)
-    θ_adagrad += δ
+    θ_adagrad .+= δ
 end
 
 # rmsprop
@@ -24,7 +24,7 @@ for i in 1:(epochs*2)
     g = ForwardDiff.gradient(μ -> cost(Y, μ[1]), θ_rmsprop)
 
     δ = update(opt, g)
-    θ_rmsprop += δ
+    θ_rmsprop .+= δ
 end
 
 # adam
@@ -35,7 +35,7 @@ for i in 1:epochs
     g = ForwardDiff.gradient(μ -> cost(Y, μ[1]), θ_adam)
 
     δ = update(opt, g)
-    θ_adam += δ
+    θ_adam .+= δ
 end
 
 # adamax
@@ -46,7 +46,7 @@ for i in 1:epochs
     g = ForwardDiff.gradient(μ -> cost(Y, μ[1]), θ_adamax)
 
     δ = update(opt, g)
-    θ_adamax += δ
+    θ_adamax .+= δ
 end
 
 # nadam
@@ -57,7 +57,7 @@ for i in 1:epochs
     g = ForwardDiff.gradient(μ -> cost(Y, μ[1]), θ_nadam)
 
     δ = update(opt, g)
-    θ_nadam += δ
+    θ_nadam .+= δ
 end
 
 @testset "Normal MLE" begin

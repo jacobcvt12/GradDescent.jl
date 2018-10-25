@@ -1,5 +1,5 @@
 using GradDescent
-using Base.Test
+using Test
 
 include("constructors.jl")
 include("quadatric.jl")

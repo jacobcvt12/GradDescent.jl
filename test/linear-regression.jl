@@ -1,6 +1,7 @@
 using Distributions, ForwardDiff
+using Random: seed!
 
-srand(1)
+seed!(1)
 n = 1000
 d = 10
 X = rand(Normal(), n, d)
@@ -19,7 +20,7 @@ for i in 1:epochs
     g = ForwardDiff.gradient(θ -> obj(Y, X, θ), θ_momentum)
 
     δ = update(opt, g)
-    θ_momentum -= δ
+    global θ_momentum -= δ
 end
 
 # adagrad
@@ -30,7 +31,7 @@ for i in 1:epochs
     g = ForwardDiff.gradient(θ -> obj(Y, X, θ), θ_adagrad)
 
     δ = update(opt, g)
-    θ_adagrad -= δ
+    global θ_adagrad -= δ
 end
 
 # rmsprop
@@ -41,7 +42,7 @@ for i in 1:epochs
     g = ForwardDiff.gradient(θ -> obj(Y, X, θ), θ_rmsprop)
 
     δ = update(opt, g)
-    θ_rmsprop -= δ
+    global θ_rmsprop -= δ
 end
 
 # adam
@@ -52,7 +53,7 @@ for i in 1:epochs
     g = ForwardDiff.gradient(θ -> obj(Y, X, θ), θ_adam)
 
     δ = update(opt, g)
-    θ_adam -= δ
+    global θ_adam -= δ
 end
 
 # adamax
@@ -63,7 +64,7 @@ for i in 1:epochs
     g = ForwardDiff.gradient(θ -> obj(Y, X, θ), θ_adamax)
 
     δ = update(opt, g)
-    θ_adamax -= δ
+    global θ_adamax -= δ
 end
 
 # nadam
@@ -74,7 +75,7 @@ for i in 1:epochs
     g = ForwardDiff.gradient(θ -> obj(Y, X, θ), θ_nadam)
 
     δ = update(opt, g)
-    θ_nadam -= δ
+    global θ_nadam -= δ
 end
 
 

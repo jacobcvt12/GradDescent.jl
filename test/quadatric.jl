@@ -1,7 +1,8 @@
+using Random: seed!
 cost(x) = x ^ 2
 dcost(x) = 2 * x
 
-srand(1)
+seed!(1)
 epochs = 2000
 
 # momentum
@@ -10,9 +11,8 @@ opt = Momentum()
 
 for i in 1:epochs
     g = dcost(x_momentum)
-
     δ = update(opt, g)
-    x_momentum -= δ
+    global x_momentum -= δ
 end
 
 # adagrad
@@ -23,7 +23,7 @@ for i in 1:epochs
     g = dcost(x_adagrad)
 
     δ = update(opt, g)
-    x_adagrad -= δ
+    global x_adagrad -= δ
 end
 
 # adadelta
@@ -34,7 +34,7 @@ for i in 1:epochs
     g = dcost(x_adadelta)
 
     δ = update(opt, g)
-    x_adadelta -= δ
+    global x_adadelta -= δ
 end
 
 # rmsprop
@@ -45,7 +45,7 @@ for i in 1:epochs
     g = dcost(x_rmsprop)
 
     δ = update(opt, g)
-    x_rmsprop -= δ
+    global x_rmsprop -= δ
 end
 
 # adam
@@ -56,7 +56,7 @@ for i in 1:epochs
     g = dcost(x_adam)
 
     δ = update(opt, g)
-    x_adam -= δ
+    global x_adam -= δ
 end
 
 # adamax
@@ -67,7 +67,7 @@ for i in 1:epochs
     g = dcost(x_adamax)
 
     δ = update(opt, g)
-    x_adamax -= δ
+    global x_adamax -= δ
 end
 
 # nadam
@@ -78,7 +78,7 @@ for i in 1:epochs
     g = dcost(x_nadam)
 
     δ = update(opt, g)
-    x_nadam -= δ
+    global x_nadam -= δ
 end
 
 @testset "Quadatric" begin

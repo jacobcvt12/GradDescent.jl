@@ -7,7 +7,7 @@ This package abstracts the "boilerplate" code necessary for gradient descent. Gr
 
 ``θ = θ - η ∇J(θ)``
 
-until convergence of ``θ``. Certainly, the gradient calculation is model specific, however the learning rate ``η`` (at a given iteration) is not. Instead there are many different gradient descent variants which determine the learning rate. Each type of gradient descent optimizer has its own pros/cons. For most of these optimizers, the calculation of the learning rate is based on the value of the gradient (evaluated at a particular ``θ``) and a few (unrelated to the model) hyperparameters. 
+until convergence of ``θ``. Certainly, the gradient calculation is model specific, however the learning rate ``η`` (at a given iteration) is not. Instead there are many different gradient descent variants which determine the learning rate. Each type of gradient descent optimizer has its own pros/cons. For most of these optimizers, the calculation of the learning rate is based on the value of the gradient (evaluated at a particular ``θ``) and a few (unrelated to the model) hyperparameters.
 
 The purpose of this package is to allow the user to focus on the calculation of the gradients and not worry about the code for the gradient descent optimizer. I envision a user implementing his/her gradients, experimenting with various optimizers, and modifying the gradients as necessary.
 
@@ -67,7 +67,7 @@ epochs = 100 # number of epochs
 opt = Adam(α=1.0)  # initalize optimizer with learning rate 1.0
 
 for i in 1:epochs
-    # here we use automatic differentiation to calculate 
+    # here we use automatic differentiation to calculate
     # the gradient at a value
     # an analytically derived gradient is not required
     g = ReverseDiff.gradient(θ -> obj(Y, X, θ), θ)
@@ -118,8 +118,8 @@ for i in 1:epochs
     entropy = logpdf(Normal(λ[1], softplus(λ[2])), z)
 
     # score function calculations
-    qg = ForwardDiff.jacobian(x -> logpdf(Normal(x[1], x[2]), 
-                                          z), 
+    qg = ForwardDiff.jacobian(x -> logpdf(Normal(x[1], x[2]),
+                                          z),
                               [λ[1], softplus(λ[2])])
 
     # construct monte carlo samples st the expected value is the gradient
@@ -145,7 +145,10 @@ end
 """
 module GradDescent
 
-export 
+using LinearAlgebra
+export
+    Optimizer,
+    VanillaGradDescent,
     Momentum,
     Adagrad,
     Adadelta,
@@ -157,7 +160,7 @@ export
     t
 
 include("AbstractOptimizer.jl")
-#include("OptimizerList.jl")
+include("VanillaGradDescent.jl")
 include("MomentumOptimizer.jl")
 include("AdaGradOptimizer.jl")
 include("AdaDeltaOptimizer.jl")

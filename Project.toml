@@ -1,7 +1,15 @@
 name = "GradDescent"
 uuid = "76767984-a792-11e8-2bb2-77d388f79a09"
-authors = ["Theo Galy-Fajou <theo.galyfajou@gmail.com>"]
+authors = ["Jacob Carey"]
 version = "0.1.0"
 
 [deps]
+Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
+ForwardDiff = "f6369f11-7733-5829-9624-2563aa707210"
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test", "Distributions"]

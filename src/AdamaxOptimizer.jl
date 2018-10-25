@@ -11,8 +11,8 @@ end
 
 "Construct Adamax optimizer"
 function Adamax(;α=0.002, β₁=0.9, β₂=0.999, ϵ=10e-8)
-    m_t = zeros(1)'
-    u_t = zeros(1)'
+    m_t = zeros(Float64,1)'
+    u_t = zeros(Float64,1)'
 
     Adamax("Adamax", 0, ϵ, α, β₁, β₂, m_t, u_t)
 end
@@ -22,8 +22,8 @@ params(opt::Adamax) = "ϵ=$(opt.ϵ), α=$(opt.α), β₁=$(opt.β₁), β₂=$(o
 function update(opt::Adamax, g_t::Array{Float64})
     # resize biased moment estimates if first iteration
     if opt.t == 0
-        opt.m_t = zeros(g_t)
-        opt.u_t = zeros(g_t)
+        opt.m_t = zero(g_t)
+        opt.u_t = zero(g_t)
     end
 
     # update timestep

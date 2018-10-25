@@ -22,18 +22,18 @@ params(opt::Nadam) = "ϵ=$(opt.ϵ), η=$(opt.η), β₁=$(opt.β₁), β₂=$(op
 function update(opt::Nadam, g_t::Array{Float64})
     # resize biased moment estimates if first iteration
     if opt.t == 0
-        opt.m_t = zeros(g_t)
-        opt.v_t = zeros(g_t)
+        opt.m_t = zero(g_t)
+        opt.v_t = zero(g_t)
     end
 
     # update timestep
     opt.t += 1
 
     # update biased first moment estimate
-    opt.m_t = opt.β₁ * opt.m_t + (1. - opt.β₁) * g_t
+    opt.m_t = opt.β₁ * opt.m_t + (1.0 - opt.β₁) * g_t
 
     # update biased second raw moment estimate
-    opt.v_t = opt.β₂ * opt.v_t + (1. - opt.β₂) * ((g_t) .^2)
+    opt.v_t = opt.β₂ * opt.v_t + (1.0 - opt.β₂) * ((g_t) .^2)
 
     # compute bias corrected first moment estimate
     m̂_t = opt.m_t / (1. - opt.β₁^opt.t)
@@ -42,8 +42,8 @@ function update(opt::Nadam, g_t::Array{Float64})
     v̂_t = opt.v_t / (1. - opt.β₂^opt.t)
 
     # apply update
-    ρ = opt.η ./ (sqrt.(v̂_t + opt.ϵ))
-    ρ .*= (opt.β₁ * m̂_t + (1. - opt.β₁) * g_t / (1 - opt.β₁^opt.t))
+    ρ = opt.η ./ (sqrt.(v̂_t .+ opt.ϵ))
+    ρ .*= (opt.β₁ * m̂_t + (1.0 - opt.β₁) * g_t / (1 - opt.β₁^opt.t))
 
     return ρ
 end

@@ -25,7 +25,7 @@ function update(opt::Momentum, g_t::Array{Float64})
     # update timestep
     opt.t += 1
 
-    opt.v_t = γ * opt.v_t + opt.η * g_t
+    opt.v_t = opt.γ * opt.v_t + opt.η * g_t
 
     return opt.v_t
 end

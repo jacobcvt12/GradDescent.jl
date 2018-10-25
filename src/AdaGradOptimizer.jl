@@ -26,9 +26,9 @@ function update(opt::Adagrad, g_t::Array{Float64})
     opt.t += 1
 
     # accumulate squares of gradients
-    opt.G_t += (g_t .^ 2)
+    opt.G_t .+= (g_t .^ 2)
 
-    δ = opt.η ./ (sqrt.(opt.G_t + opt.ϵ)) .* g_t
+    δ = opt.η ./ (sqrt.(opt.G_t .+ opt.ϵ)) .* g_t
 
     return δ
 end

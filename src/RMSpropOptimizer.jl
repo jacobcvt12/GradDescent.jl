@@ -28,7 +28,7 @@ function update(opt::RMSprop, g_t::Array{Float64})
     opt.E_g²_t = opt.γ * opt.E_g²_t + (1 - opt.γ) * (g_t .^ 2)
 
     # compute update
-    RMS_g_t = sqrt.(opt.E_g²_t + opt.ϵ)
+    RMS_g_t = sqrt.(opt.E_g²_t .+ opt.ϵ)
     δ = opt.η * g_t ./ RMS_g_t
 
     return δ

@@ -14,7 +14,7 @@ params(opt::Optimizer) = error("not implemented")
 
 "Print summary"
 function Base.show(io::IO, opt::Optimizer)
-    print("$(optimizer(opt))(t=$(t(opt::Optimizer)), $(params(opt)))")
+    print(io,"$(optimizer(opt))(t=$(t(opt::Optimizer)), $(params(opt)))")
 end
 
 "Deep copy an optimizer"

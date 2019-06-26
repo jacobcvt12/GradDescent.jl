@@ -81,6 +81,17 @@ for i in 1:epochs
     global x_nadam -= δ
 end
 
+# vanilla
+x_vanilla = rand(1)
+opt = VanillaGradDescent()
+
+for i in 1:epochs
+    g = dcost(x_vanilla)
+
+    δ = update(opt, g)
+    global x_nadam -= δ
+end
+
 @testset "Quadatric" begin
     @test 0.0 ≈ x_momentum[1] atol=5e-2
     @test 0.0 ≈ x_adagrad[1] atol=5e-2
@@ -89,4 +100,5 @@ end
     @test 0.0 ≈ x_adam[1] atol=5e-2
     @test 0.0 ≈ x_adamax[1] atol=5e-2
     @test 0.0 ≈ x_nadam[1] atol=5e-2
+    @test 0.0 ≈ x_vanilla[1] atol=5e-2
 end

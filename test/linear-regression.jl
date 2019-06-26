@@ -78,6 +78,30 @@ for i in 1:epochs
     global θ_nadam -= δ
 end
 
+## vanilla
+θ_vanilla = rand(Normal(), d)
+opt = VanillaGradDescent(η=0.001)
+
+for i in 1:20*epochs
+    g = ForwardDiff.gradient(θ -> obj(Y, X, θ), θ_vanilla)
+
+    δ = update(opt, g)
+    global θ_vanilla -= δ
+end
+
+
+## inversedecay
+θ_invdec = rand(Normal(), d)
+opt = Inversedecay(κ=0.9)
+
+for i in 1:epochs
+    g = ForwardDiff.gradient(θ -> obj(Y, X, θ), θ_invdec)
+
+    δ = update(opt, g)
+    global θ_invdec -= δ
+end
+
+##
 
 @testset "Linear Regression" begin
     @test b ≈ θ_momentum atol=1e-1
@@ -85,4 +109,6 @@ end
     @test b ≈ θ_adam atol=1e-1
     @test b ≈ θ_adamax atol=1e-1
     @test b ≈ θ_nadam atol=1e-1
+    @test b ≈ θ_vanilla atol=1e-1
+    @test b ≈ θ_invdec atol=1e-1
 end

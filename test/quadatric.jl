@@ -89,8 +89,20 @@ for i in 1:epochs
     g = dcost(x_vanilla)
 
     δ = update(opt, g)
-    global x_nadam -= δ
+    global x_vanilla -= δ
 end
+
+# inversedecay
+x_invdec = rand(1)
+opt = Inversedecay()
+
+for i in 1:epochs
+    g = dcost(x_invdec)
+
+    δ = update(opt, g)
+    global x_invdec -= δ
+end
+
 
 @testset "Quadatric" begin
     @test 0.0 ≈ x_momentum[1] atol=5e-2

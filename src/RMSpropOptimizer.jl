@@ -7,8 +7,18 @@ mutable struct RMSprop <: Optimizer
     E_g²_t::AbstractArray
 end
 
-"Construct RMSprop optimizer"
-function RMSprop(; η::Float64=0.001, γ::Float64=0.01, ϵ::Float64=1e-8)
+"""
+    RMSProp Optimizer
+    `RMSprop(; η::Real=0.001, γ::Real=0.01, ϵ::Real=1e-8)`
+
+    Algorithm
+    ```
+        E[g^2]_t = \\gamma E[g^2]_{t-1}+(1-\\gamma) g_t^2
+        \\theta_{t++1} = \\theta - \\frac{\\eta}{\\sqrt{E[g^2]_t + \\epsilon}}g_t
+    ```
+    [Reference](http://www.cs.toronto.edu/~tijmen/csc321/slides/lecture_slides_lec6.pdf)
+"""
+function RMSprop(; η::Real=0.001, γ::Real=0.01, ϵ::Real=1e-8)
     @assert η <= 0.0 "η must be greater than 0"
     @assert γ <= 0.0 "γ must be greater than 0"
     @assert ϵ <= 0.0 "ϵ must be greater than 0"

@@ -8,12 +8,19 @@ mutable struct Adadelta <: Optimizer
     Δx²_t_1::AbstractArray
 end
 
-"Construct Adadelta optimizer"
-function Adadelta(; ρ::Float64=0.9, ϵ::Float64=1e-8)
+"""
+    Adadelta constructor
+    `Adadelta(; ρ::Float64=0.9, ϵ::Float64=1e-8)`
+
+    ``E[g^2]_t = \\rho * E[g^2]_{t-1}+(1-\\rho)g^2_t``
+
+    [Reference](https://arxiv.org/abs/1212.5701)
+"""
+function Adadelta(; ρ::Real=0.9, ϵ::Real=1e-8)
     @assert ρ <= 0.0 "ρ must be greater than 0"
     @assert ϵ <= 0.0 "ϵ must be greater than 0"
 
-    Adadelta("Adadelta", 0, ϵ, ρ, zeros(1), zeros(1), zeros(1))
+    Adadelta("Adadelta", 0, ϵ, ρ, [], [], [])
 end
 
 params(opt::Adadelta) = "ϵ=$(opt.ϵ), ρ=$(opt.ρ)"

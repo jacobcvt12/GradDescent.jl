@@ -9,7 +9,19 @@ mutable struct Adam <: Optimizer
     v_t::AbstractArray
 end
 
-"Construct Adam optimizer"
+"""
+    Adam Optimizer
+    `Adam(;α=0.001, β₁=0.9, β₂=0.999, ϵ=10e-8)`
+    Algorithm
+    ```
+        m_t = \\beta_1 m_{t-1} + (1-\\beta_1)g_t
+        v_t = \\beta_2 v_{t-1} + (1-\\beta_2)g_t^2
+        \\hat{m}_t = \\frac{m_t}{1-\\beta_1^t}
+        \\hat{v}_t = \\frac{v_t}{1-\\beta_2^t}
+        \theta_{t+1} = \theta_t - \\frac{\\alpha}{\\sqrt{\\hat{v}_t}+\\epsilon}\\hat{m}_t
+    ```
+    [Reference](https://arxiv.org/abs/1412.6980)
+"""
 function Adam(;α=0.001, β₁=0.9, β₂=0.999, ϵ=10e-8)
     m_t = [0.0]
     v_t = [0.0]

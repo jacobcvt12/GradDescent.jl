@@ -1,7 +1,8 @@
 using Documenter, GradDescent
 
-makedocs(
-    sitename="GradDescent Documentation",
+makedocs(modules=[GradDescent],
+    sitename="GradDescent.jl",
+    format = Documenter.HTML(),
     pages = [
     "Home"=>"index.md",
     "Optimizers"=>"optimizers.md",
@@ -9,8 +10,8 @@ makedocs(
     ]
 )
 
-# deploydocs(
-#     deps = Deps.pip("mkdocs", "python-markdown-math"),
-#     repo = "github.com/jacobcvt12/GradDescent.jl.git",
-#     julia = "1.0"
-# )
+deploydocs(
+    deps = Deps.pip("mkdocs", "python-markdown-math"),
+    repo = "github.com/jacobcvt12/GradDescent.jl.git",
+    julia = "1.0"
+)

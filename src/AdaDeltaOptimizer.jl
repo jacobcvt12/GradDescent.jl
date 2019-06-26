@@ -17,8 +17,8 @@ end
     [Reference](https://arxiv.org/abs/1212.5701)
 """
 function Adadelta(; ρ::Real=0.9, ϵ::Real=1e-8)
-    @assert ρ <= 0.0 "ρ must be greater than 0"
-    @assert ϵ <= 0.0 "ϵ must be greater than 0"
+    @assert ρ > 0.0 "ρ must be greater than 0"
+    @assert ϵ > 0.0 "ϵ must be greater than 0"
 
     Adadelta("Adadelta", 0, ϵ, ρ, [], [], [])
 end
@@ -34,7 +34,7 @@ function update(opt::Adadelta, g_t::AbstractArray{T}) where {T<:Real}
     end
 
     # accumulate gradient
-    opt.E_g²_t = opt.ρ * opt.E_g²_t + (1 - opt.ρ) * (g_t .^ 2)
+    opt.E_g²_t = opt.ρ * opt.E_g²_t + (one(T) - opt.ρ) * (g_t .^ 2)
 
     # compute update
     RMS_g_t = sqrt.(opt.E_g²_t .+ opt.ϵ)
@@ -42,7 +42,7 @@ function update(opt::Adadelta, g_t::AbstractArray{T}) where {T<:Real}
     Δx_t = RMS_Δx_t_1 .* g_t ./ RMS_g_t
 
     # accumulate updates
-    opt.E_Δx²_t_1 = opt.ρ * opt.E_Δx²_t_1 + (1 - opt.ρ) * (Δx_t .^ 2)
+    opt.E_Δx²_t_1 = opt.ρ * opt.E_Δx²_t_1 + (one(T) - opt.ρ) * (Δx_t .^ 2)
 
     return Δx_t
 end

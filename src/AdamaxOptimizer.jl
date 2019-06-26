@@ -22,11 +22,13 @@ end
     ```
     [Reference](https://arxiv.org/abs/1412.6980)
 """
-function Adamax(;α=0.002, β₁=0.9, β₂=0.999, ϵ=10e-8)
-    m_t = zeros(Float64,1)'
-    u_t = zeros(Float64,1)'
+function Adamax(;α::Real=0.002, β₁::Real=0.9, β₂::Real=0.999, ϵ::Real=10e-8)
+    @assert α > 0.0 "α must be greater than 0"
+    @assert β₁ > 0.0 "β₁ must be greater than 0"
+    @assert β₂ > 0.0 "β₂ must be greater than 0"
+    @assert ϵ > 0.0 "ϵ must be greater than 0"
 
-    Adamax("Adamax", 0, ϵ, α, β₁, β₂, m_t, u_t)
+    Adamax("Adamax", 0, ϵ, α, β₁, β₂, [], [])
 end
 
 params(opt::Adamax) = "ϵ=$(opt.ϵ), α=$(opt.α), β₁=$(opt.β₁), β₂=$(opt.β₂)"
@@ -42,13 +44,13 @@ function update(opt::Adamax, g_t::AbstractArray{T}) where {T<:Real}
     opt.t += 1
 
     # update biased first moment estimate
-    opt.m_t = opt.β₁ * opt.m_t + (1. - opt.β₁) * g_t
+    opt.m_t = opt.β₁ * opt.m_t + (one(T) - opt.β₁) * g_t
 
     # update the exponentially weighted infinity norm
     opt.u_t = max.(opt.β₂ * opt.u_t, abs.(g_t))
 
     # update parameters
-    ρ = (opt.α / (1- opt.β₁^opt.t)) * opt.m_t ./ opt.u_t
+    ρ = (opt.α / (one(T) - opt.β₁^opt.t)) * opt.m_t ./ opt.u_t
 
     return ρ
 end

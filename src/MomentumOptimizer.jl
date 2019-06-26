@@ -7,11 +7,11 @@ mutable struct Momentum <: Optimizer
 end
 
 "Construct Momentum optimizer"
-function Momentum(; η::Float64=0.01, γ::Float64=0.9)
-    @assert η <= 0.0 "η must be greater than 0"
-    @assert γ <= 0.0 "γ must be greater than 0"
+function Momentum(; η::Real=0.01, γ::Real=0.9)
+    @assert η > 0.0 "η must be greater than 0"
+    @assert γ > 0.0 "γ must be greater than 0"
 
-    Momentum("Momentum", 0, η, γ, [0.0])
+    Momentum("Momentum", 0, η, γ, [])
 end
 
 params(opt::Momentum) = "η=$(opt.η), γ=$(opt.γ)"

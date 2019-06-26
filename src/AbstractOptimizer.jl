@@ -2,7 +2,7 @@ abstract type Optimizer
 end
 
 "Calculate change in parameters for gradient descent"
-update(opt::Optimizer, g_t::AbstractArray{T,N}) where {T<:Real,N} = error("not implemented")
+update(opt::Optimizer, g_t::AbstractArray{T}) where {T<:Real} = error("not implemented")
 update(opt::Optimizer, g_t::Real) = update(opt::Optimizer, [g_t])[1]
 
 "Number of epochs run"

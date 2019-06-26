@@ -16,7 +16,7 @@ end
 
 params(opt::Momentum) = "η=$(opt.η), γ=$(opt.γ)"
 
-function update(opt::Momentum, g_t::AbstractArray{T,N}) where {T<:Real,N}
+function update(opt::Momentum, g_t::AbstractArray{T}) where {T<:Real}
     # resize squares of gradients
     if opt.t == 0
         opt.v_t = zero(g_t)

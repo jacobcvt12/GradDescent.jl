@@ -18,7 +18,7 @@ end
 
 params(opt::RMSprop) = "ϵ=$(opt.ϵ), η=$(opt.η), γ=$(opt.γ)"
 
-function update(opt::RMSprop, g_t::AbstractArray{T,N}) where {T<:Real,N}
+function update(opt::RMSprop, g_t::AbstractArray{T}) where {T<:Real}
     # resize accumulated and squared updates
     if opt.t == 0
         opt.E_g²_t = zero(g_t)

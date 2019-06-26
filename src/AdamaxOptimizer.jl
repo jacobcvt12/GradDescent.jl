@@ -19,7 +19,7 @@ end
 
 params(opt::Adamax) = "ϵ=$(opt.ϵ), α=$(opt.α), β₁=$(opt.β₁), β₂=$(opt.β₂)"
 
-function update(opt::Adamax, g_t::AbstractArray{T,N}) where {T<:Real,N}
+function update(opt::Adamax, g_t::AbstractArray{T}) where {T<:Real}
     # resize biased moment estimates if first iteration
     if opt.t == 0
         opt.m_t = zero(g_t)

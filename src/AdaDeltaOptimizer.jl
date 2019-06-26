@@ -18,7 +18,7 @@ end
 
 params(opt::Adadelta) = "ϵ=$(opt.ϵ), ρ=$(opt.ρ)"
 
-function update(opt::Adadelta, g_t::AbstractArray{T, N}) where {T<:Real, N}
+function update(opt::Adadelta, g_t::AbstractArray{T}) where {T<:Real}
     # resize accumulated and squared updates
     if opt.t == 0
         opt.E_g²_t = zero(g_t)

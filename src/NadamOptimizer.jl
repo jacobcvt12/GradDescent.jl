@@ -19,7 +19,7 @@ end
 
 params(opt::Nadam) = "ϵ=$(opt.ϵ), η=$(opt.η), β₁=$(opt.β₁), β₂=$(opt.β₂)"
 
-function update(opt::Nadam, g_t::AbstractArray{T,N}) where {T<:Real,N}
+function update(opt::Nadam, g_t::AbstractArray{T}) where {T<:Real}
     # resize biased moment estimates if first iteration
     if opt.t == 0
         opt.m_t = zero(g_t)

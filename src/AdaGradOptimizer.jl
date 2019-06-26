@@ -16,7 +16,7 @@ end
 
 params(opt::Adagrad) = "ϵ=$(opt.ϵ), η=$(opt.η)"
 
-function update(opt::Adagrad, g_t::AbstractArray{T, N}) where {T<:Real, N}
+function update(opt::Adagrad, g_t::AbstractArray{T}) where {T<:Real}
     # resize squares of gradients
     if opt.t == 0
         opt.G_t = zero(g_t)

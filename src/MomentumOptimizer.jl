@@ -8,8 +8,8 @@ end
 
 "Construct Momentum optimizer"
 function Momentum(; η::Float64=0.01, γ::Float64=0.9)
-    η <= 0.0 && error("η must be greater than 0")
-    γ <= 0.0 && error("γ must be greater than 0")
+    @assert η <= 0.0 "η must be greater than 0"
+    @assert γ <= 0.0 "γ must be greater than 0"
 
     Momentum("Momentum", 0, η, γ, [0.0])
 end

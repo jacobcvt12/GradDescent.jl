@@ -10,8 +10,8 @@ end
 
 "Construct Adadelta optimizer"
 function Adadelta(; ρ::Float64=0.9, ϵ::Float64=1e-8)
-    ρ <= 0.0 && error("ρ must be greater than 0")
-    ϵ <= 0.0 && error("ϵ must be greater than 0")
+    @assert ρ <= 0.0 "ρ must be greater than 0"
+    @assert ϵ <= 0.0 "ϵ must be greater than 0"
 
     Adadelta("Adadelta", 0, ϵ, ρ, zeros(1), zeros(1), zeros(1))
 end

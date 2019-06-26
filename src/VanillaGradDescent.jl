@@ -5,8 +5,8 @@ mutable struct VanillaGradDescent <: Optimizer
 end
 
 "Construct Vanilla Gradient Descent optimizer"
-function VanillaGradDescent(; η::Float64=0.1)
-    η <= 0.0 && error("η must be greater than 0")
+function VanillaGradDescent(; η::Real=0.1)
+    @assert η <= 0.0 "η must be greater than 0"
 
     VanillaGradDescent("Vanilla Gradient Descent", 0, η)
 end

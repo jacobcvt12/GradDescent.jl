@@ -9,9 +9,9 @@ end
 
 "Construct RMSprop optimizer"
 function RMSprop(; η::Float64=0.001, γ::Float64=0.01, ϵ::Float64=1e-8)
-    η <= 0.0 && error("η must be greater than 0")
-    γ <= 0.0 && error("γ must be greater than 0")
-    ϵ <= 0.0 && error("ϵ must be greater than 0")
+    @assert η <= 0.0 "η must be greater than 0"
+    @assert γ <= 0.0 "γ must be greater than 0"
+    @assert ϵ <= 0.0 "ϵ must be greater than 0"
 
     RMSprop("RMSprop", 0, ϵ, η, γ, [0.0])
 end

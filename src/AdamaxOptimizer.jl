@@ -1,15 +1,5 @@
-mutable struct Adamax <: Optimizer
-    opt_type::String
-    t::Int64
-    α::Float64
-    β₁::Float64
-    β₂::Float64
-    m_t::AbstractArray
-    u_t::AbstractArray
-end
-
 """
-Adamax Optimizer
+**Adamax Constructor**
 
 ```julia
 Adamax(;α=0.002, β₁=0.9, β₂=0.999, ϵ=10e-8)
@@ -26,6 +16,16 @@ u_t =& \\max(\\beta_2 u_{t}, |g_t|)\\\\
 
 [Algorithm Reference](https://arxiv.org/abs/1412.6980)
 """
+mutable struct Adamax <: Optimizer
+    opt_type::String
+    t::Int64
+    α::Float64
+    β₁::Float64
+    β₂::Float64
+    m_t::AbstractArray
+    u_t::AbstractArray
+end
+
 function Adamax(;α::Real=0.002, β₁::Real=0.9, β₂::Real=0.998)
     @assert α > 0.0 "α must be greater than 0"
     @assert β₁ > 0.0 "β₁ must be greater than 0"

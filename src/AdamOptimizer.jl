@@ -1,3 +1,21 @@
+"""
+**Adam Optimizer**
+```julia
+    Adam(;α=0.001, β₁=0.9, β₂=0.999, ϵ=10e-8)
+```
+
+Algorithm:
+```math
+\\begin{align*}
+    m_t =& \\beta_1 m_{t-1} + (1-\\beta_1)g_t\\\\
+    v_t =& \\beta_2 v_{t-1} + (1-\\beta_2)g_t^2\\\\
+    \\hat{m}_t =& \\frac{m_t}{1-\\beta_1^t}\\\\
+    \\hat{v}_t =& \\frac{v_t}{1-\\beta_2^t}\\\\
+    \\Delta x_t =& \\frac{\\alpha}{\\sqrt{\\hat{v}_t}+\\epsilon}\\hat{m}_t\\\\
+\\end{align*}
+```
+[Algorithm Reference](https://arxiv.org/abs/1412.6980)
+"""
 mutable struct Adam <: Optimizer
     opt_type::String
     t::Int64
@@ -9,19 +27,7 @@ mutable struct Adam <: Optimizer
     v_t::AbstractArray
 end
 
-"""
-    Adam Optimizer
-    `Adam(;α=0.001, β₁=0.9, β₂=0.999, ϵ=10e-8)`
-    Algorithm
-    ```
-        m_t = \\beta_1 m_{t-1} + (1-\\beta_1)g_t
-        v_t = \\beta_2 v_{t-1} + (1-\\beta_2)g_t^2
-        \\hat{m}_t = \\frac{m_t}{1-\\beta_1^t}
-        \\hat{v}_t = \\frac{v_t}{1-\\beta_2^t}
-        \theta_{t+1} = \theta_t - \\frac{\\alpha}{\\sqrt{\\hat{v}_t}+\\epsilon}\\hat{m}_t
-    ```
-    [Reference](https://arxiv.org/abs/1412.6980)
-"""
+
 function Adam(;α::Real=0.001, β₁::Real=0.9, β₂::Real=0.999, ϵ::Real=10e-8)
     @assert α > 0.0 "α must be greater than 0"
     @assert β₁ > 0.0 "β₁ must be greater than 0"

@@ -1,3 +1,19 @@
+"""
+**RMSProp Optimizer**
+```julia
+RMSprop(; η::Real=0.001, γ::Real=0.01, ϵ::Real=1e-8)
+```
+
+Algorithm
+
+```math
+\\begin{align*}
+    E[g^2]_t =& \\gamma E[g^2]_{t-1}+(1-\\gamma) g_t^2\\\\
+    \\Delta x_t =& \\frac{\\eta}{\\sqrt{E[g^2]_t + \\epsilon}}g_t
+\\end{align*}
+```
+    [Reference](http://www.cs.toronto.edu/~tijmen/csc321/slides/lecture_slides_lec6.pdf)
+"""
 mutable struct RMSprop <: Optimizer
     opt_type::String
     t::Int64
@@ -7,17 +23,6 @@ mutable struct RMSprop <: Optimizer
     E_g²_t::AbstractArray
 end
 
-"""
-    RMSProp Optimizer
-    `RMSprop(; η::Real=0.001, γ::Real=0.01, ϵ::Real=1e-8)`
-
-    Algorithm
-    ```
-        E[g^2]_t = \\gamma E[g^2]_{t-1}+(1-\\gamma) g_t^2
-        \\theta_{t++1} = \\theta - \\frac{\\eta}{\\sqrt{E[g^2]_t + \\epsilon}}g_t
-    ```
-    [Reference](http://www.cs.toronto.edu/~tijmen/csc321/slides/lecture_slides_lec6.pdf)
-"""
 function RMSprop(; η::Real=0.001, γ::Real=0.01, ϵ::Real=1e-8)
     @assert η > 0.0 "η must be greater than 0"
     @assert γ > 0.0 "γ must be greater than 0"

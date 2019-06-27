@@ -1,3 +1,24 @@
+"""
+**Nadam constructor (Nesterov Adam)**
+
+```julia
+     Nadam(;η::Real=0.001, β₁::Real=0.9, β₂::Real=0.999, ϵ::Real=10e-8)
+```
+
+Algorithm :
+
+```math
+\\begin{align*}
+m_t =& \\beta_1 m_{t-1} + (1-\\beta_1)g_t\\\\
+v_t =& \\beta_2 v_{t-1} + (1-\\beta_2)g_t^2\\\\
+\\hat{m}_t =& \\frac{m_t}{1-\\beta_1^t}\\\\
+\\hat{v}_t =& \\frac{v_t}{1-\\beta_2^t}\\\\
+\\Delta x_t =&\\frac{\\eta}{\\sqrt{\\hat{v}_t+\\epsilon}}(\\beta_1\\hat{m}_t+\\frac{(1-\\beta_1)g_t}{1-\\beta_1^t})
+\\end{align*}
+```
+
+[Algorithm Reference](http://cs229.stanford.edu/proj2015/054_report.pdf) and [other reference](http://www.cs.toronto.edu/~fritz/absps/momentum.pdf)
+"""
 mutable struct Nadam <: Optimizer
     opt_type::String
     t::Int64

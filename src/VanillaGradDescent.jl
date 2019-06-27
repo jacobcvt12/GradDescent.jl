@@ -1,11 +1,22 @@
+"""
+**Basic gradient descent with fixed learning rate**
+```julia
+VanillaGradDescent(; η::Real=0.01)
+```
+
+Algorithm
+```math
+\\Delta x_t = \\eta g_t
+```
+
+"""
 mutable struct VanillaGradDescent <: Optimizer
     opt_type::String
     t::Int64
     η::Float64
 end
 
-"Construct Vanilla Gradient Descent optimizer"
-function VanillaGradDescent(; η::Real=0.1)
+function VanillaGradDescent(; η::Real=0.01)
     @assert η > 0.0 "η must be greater than 0"
 
     VanillaGradDescent("Vanilla Gradient Descent", 0, η)

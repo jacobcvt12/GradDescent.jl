@@ -1,3 +1,16 @@
+"""
+**Inversedecay constructor**
+```julia
+    Inversedecay(; t0::Real=1, κ::Real=0.51)
+```
+
+Algorithm:
+```math
+\\Delta x_t = (t+t_0)^{-\\kappa}g_t
+```
+
+Simple learning rate respecting the [Robbins-Monro conditions](https://en.wikipedia.org/wiki/Stochastic_approximation#Robbins%E2%80%93Monro_algorithm) for κ ∈ (0.5,1]
+"""
 mutable struct Inversedecay <: Optimizer
     opt_type::String
     t::Int64
@@ -5,9 +18,6 @@ mutable struct Inversedecay <: Optimizer
     κ::Float64
 end
 
-"""
-    Construct an Inverse Decay Gradient Descent optimizer
-"""
 function Inversedecay(; t0::Real=1, κ::Real=0.51)
     @assert t0 > 0.0 "t0 must be greater than 0"
     @assert (κ > 0.5 || κ <= 1.0) "κ argument is in (0.5,1]"

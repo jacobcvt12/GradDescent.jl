@@ -1,3 +1,21 @@
+"""
+**Adagrad constructor**
+
+```julia
+    Adagrad(; η::Real=0.01, ϵ::Real=1e-8)
+```
+
+Algorithm :
+
+```math
+\\begin{align*}
+G_t =& g_t^2\\\\
+\\Delta  x_t =& \\frac{\\eta}{\\sqrt{G_t+ϵ}} g_t
+\\end{align*}
+```
+
+[Algorithm Reference](http://www.jmlr.org/papers/volume12/duchi11a/duchi11a.pdf)
+"""
 mutable struct Adagrad <: Optimizer
     opt_type::String
     t::Int64
@@ -6,7 +24,7 @@ mutable struct Adagrad <: Optimizer
     G_t::AbstractArray
 end
 
-"Construct Adagrad optimizer"
+
 function Adagrad(; η::Real=0.01, ϵ::Real=1e-8)
     @assert η > 0.0 "η must be greater than 0"
     @assert ϵ > 0.0 "ϵ must be greater than 0"

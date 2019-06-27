@@ -1,5 +1,4 @@
-abstract type Optimizer
-end
+abstract type Optimizer end
 
 "Calculate change in parameters for gradient descent"
 update(opt::Optimizer, g_t::AbstractArray{T}) where {T<:Real} = error("not implemented")
@@ -18,8 +17,6 @@ function Base.show(io::IO, opt::Optimizer)
 end
 
 "Deep copy an optimizer"
-function Base.deepcopy(opt::Optimizer)
-    f = length(fieldnames(opt))
-    copied_params = [deepcopy(getfield(opt, k)) for k = 1:f]
-    typeof(opt)(copied_params...)
+function Base.deepcopy(opt::O) where {O<:Optimizer}
+    O([deepcopy(getfield(opt,f)) for f in fieldnames(O)]...)
 end

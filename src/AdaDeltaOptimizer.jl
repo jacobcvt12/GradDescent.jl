@@ -1,3 +1,24 @@
+"""
+**Adadelta constructor**
+
+```julia
+    Adadelta(; ρ::Float64=0.9, ϵ::Float64=1e-8)
+```
+
+Algorithm :
+
+```math
+\\begin{align*}
+E[g^2]_t =& \\rho  E[g^2]_{t-1}+(1-\\rho)g^2_t\\\\
+\\text{RMS}[g]_t =& \\sqrt{E[g^2]_t + \\epsilon}\\\\
+\\text{RMS}[\\Delta x]_{t-1} =& \\sqrt{E[\\Delta x^2]_{t-1} + \\epsilon}\\\\
+\\Delta x_t =& \\text{RMS}[Δx]_{t-1} * g_t / \\text{RMS}[g]_t\\\\
+E[\\Delta x^2]_{t} =& \\rho E[\\Delta x^2]_{t} + (1 - \\rho) \\Delta x^2_t\\\\
+\\end{align*}
+```
+
+[Algorithm Reference](https://arxiv.org/abs/1212.5701)
+"""
 mutable struct Adadelta <: Optimizer
     opt_type::String
     t::Int64
@@ -8,14 +29,6 @@ mutable struct Adadelta <: Optimizer
     Δx²_t_1::AbstractArray
 end
 
-"""
-    Adadelta constructor
-    `Adadelta(; ρ::Float64=0.9, ϵ::Float64=1e-8)`
-
-    ``E[g^2]_t = \\rho * E[g^2]_{t-1}+(1-\\rho)g^2_t``
-
-    [Reference](https://arxiv.org/abs/1212.5701)
-"""
 function Adadelta(; ρ::Real=0.9, ϵ::Real=1e-8)
     @assert ρ > 0.0 "ρ must be greater than 0"
     @assert ϵ > 0.0 "ϵ must be greater than 0"
@@ -46,3 +59,7 @@ function update(opt::Adadelta, g_t::AbstractArray{T}) where {T<:Real}
 
     return Δx_t
 end
+
+"""
+
+"""

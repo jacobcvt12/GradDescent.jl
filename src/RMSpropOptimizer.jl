@@ -1,3 +1,19 @@
+"""
+**RMSProp Optimizer**
+```julia
+RMSprop(; η::Real=0.001, γ::Real=0.01, ϵ::Real=1e-8)
+```
+
+Algorithm
+
+```math
+\\begin{align*}
+    E[g^2]_t =& \\gamma E[g^2]_{t-1}+(1-\\gamma) g_t^2\\\\
+    \\Delta x_t =& \\frac{\\eta}{\\sqrt{E[g^2]_t + \\epsilon}}g_t
+\\end{align*}
+```
+    [Reference](http://www.cs.toronto.edu/~tijmen/csc321/slides/lecture_slides_lec6.pdf)
+"""
 mutable struct RMSprop <: Optimizer
     opt_type::String
     t::Int64
@@ -7,25 +23,24 @@ mutable struct RMSprop <: Optimizer
     E_g²_t::AbstractArray
 end
 
-"Construct RMSprop optimizer"
-function RMSprop(; η::Float64=0.001, γ::Float64=0.01, ϵ::Float64=1e-8)
-    η <= 0.0 && error("η must be greater than 0")
-    γ <= 0.0 && error("γ must be greater than 0")
-    ϵ <= 0.0 && error("ϵ must be greater than 0")
+function RMSprop(; η::Real=0.001, γ::Real=0.01, ϵ::Real=1e-8)
+    @assert η > 0.0 "η must be greater than 0"
+    @assert γ > 0.0 "γ must be greater than 0"
+    @assert ϵ > 0.0 "ϵ must be greater than 0"
 
-    RMSprop("RMSprop", 0, ϵ, η, γ, [0.0])
+    RMSprop("RMSprop", 0, ϵ, η, γ, [])
 end
 
 params(opt::RMSprop) = "ϵ=$(opt.ϵ), η=$(opt.η), γ=$(opt.γ)"
 
-function update(opt::RMSprop, g_t::AbstractArray{T,N}) where {T<:Real,N}
+function update(opt::RMSprop, g_t::AbstractArray{T}) where {T<:Real}
     # resize accumulated and squared updates
     if opt.t == 0
         opt.E_g²_t = zero(g_t)
     end
 
     # accumulate gradient
-    opt.E_g²_t = opt.γ * opt.E_g²_t + (1 - opt.γ) * (g_t .^ 2)
+    opt.E_g²_t = opt.γ * opt.E_g²_t + (one(T) - opt.γ) * (g_t .^ 2)
 
     # compute update
     RMS_g_t = sqrt.(opt.E_g²_t .+ opt.ϵ)

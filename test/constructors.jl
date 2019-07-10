@@ -6,4 +6,6 @@
     @test_nowarn opt = Adam()
     @test_nowarn opt = Adamax()
     @test_nowarn opt = Nadam()
+    @test_nowarn opt = VanillaGradDescent()
+    @test_nowarn opt = Inversedecay()
 end

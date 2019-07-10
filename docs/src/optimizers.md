@@ -1,0 +1,11 @@
+```@docs
+  Adadelta
+  Adagrad
+  Adamax
+  Adam
+  Inversedecay
+  Momentum
+  Nadam
+  RMSprop
+  VanillaGradDescent
+```

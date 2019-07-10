@@ -11,3 +11,7 @@
 # documentation files
 docs/build/
 docs/site/
+
+# Manifest
+
+Manifest.toml
